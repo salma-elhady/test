@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lunar Landing Site Navigator | NASA Space Apps</title>
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <canvas id="space" aria-hidden="true"></canvas>
+    <header>
+    <div class="header-brand">
+        
+        <img src="assets/logo.png" alt="Lunar Mission Logo" class="header-logo-img">
+
+        <div class="header-title">
+            <h1>Lunar Landing Site Navigator</h1>
+            <p>NASA Space Apps Challenge • South Pole Mission Analysis</p>
+        </div>
+    </div>
+
+    <div class="header-badges">
+        <span class="badge-tag badge-purple hide-mobile">
+            LOLA DATA
+        </span>
+
+        <span class="badge-tag">
+            CLIENT-SIDE
+        </span>
+    </div>
+    </header>
+
+
+    <main>
+
+        <!-- PAGE INTRO -->
+        <section class="page-intro">
+
+            <div>
+                <span class="intro-label">
+                    LUNAR EXPLORATION / MISSION DASHBOARD
+                </span>
+
+                <h2>
+                    Landing Site <span>Navigator.</span>
+                </h2>
+
+                <p>
+                    Explore lunar south pole locations, evaluate landing
+                    conditions, and compare mission opportunities.
+                </p>
+            </div>
+
+            <div class="mission-indicator">
+                <span class="indicator-dot"></span>
+                MISSION ANALYSIS ACTIVE
+            </div>
+
+        </section>
+
+
+        <!-- TOP SECTION -->
+        <section class="top-grid">
+
+            <!-- TERRAIN MAP -->
+            <div class="card map-card">
+
+                <div class="card-header-row">
+
+                    <div>
+                        <span class="section-number">01 / TERRAIN</span>
+
+                        <h2 class="card-title">
+                            Interactive South Pole Map
+                        </h2>
+
+                        <p class="card-sub">
+                            Select a location to evaluate its landing conditions.
+                        </p>
+                    </div>
+
+                    <span class="status-badge badge-optimal">
+                        LRO SURFACE LAYER
+                    </span>
+
+                </div>
+
+
+                <div class="terrain-map-container">
+
+                    <img
+                        src="assets/moon-south-pole.jpg"
+                        alt="Moon South Pole Terrain"
+                        onerror="this.style.display='none'; document.getElementById('imgFallback').style.display='flex';"
+                    >
+
+                    <div id="imgFallback" class="img-fallback">
+                        Place 'moon-south-pole.jpg' inside your assets folder
+                    </div>
+
+
+                    <!-- MAP PINS -->
+
+                    <button class="terrain-pin"
+                        style="top:65%; left:43.6%;"
+                        data-site="Shackleton Connecting Ridge"
+                        onclick="toggleSiteFromMap('Shackleton Connecting Ridge')">
+
+                        <span class="pin-tooltip">
+                            Shackleton Ridge
+                        </span>
+
+                    </button>
+
+
+                    <button class="terrain-pin"
+                        style="top:20%; left:44.1%;"
+                        data-site="Malapert Mountain (Massif)"
+                        onclick="toggleSiteFromMap('Malapert Mountain (Massif)')">
+
+                        <span class="pin-tooltip">
+                            Malapert Massif
+                        </span>
+
+                    </button>
+
+
+                    <button class="terrain-pin"
+                        style="top:69%; left:44.4%;"
+                        data-site="Peak of Eternal Light"
+                        onclick="toggleSiteFromMap('Peak of Eternal Light')">
+
+                        <span class="pin-tooltip">
+                            Peak of Eternal Light
+                        </span>
+
+                    </button>
+
+
+                    <button class="terrain-pin"
+                        style="top:36.4%; left:41.8%;"
+                        data-site="Haworth Crater Rim"
+                        onclick="toggleSiteFromMap('Haworth Crater Rim')">
+
+                        <span class="pin-tooltip">
+                            Haworth Rim
+                        </span>
+
+                    </button>
+
+
+                    <button class="terrain-pin"
+                        style="top:61.8%; left:57%;"
+                        data-site="Faustini Rim A"
+                        onclick="toggleSiteFromMap('Faustini Rim A')">
+
+                        <span class="pin-tooltip">
+                            Faustini Rim A
+                        </span>
+
+                    </button>
+
+
+                    <button class="terrain-pin"
+                        style="top:80.7%; left:72.4%;"
+                        data-site="Amundsen South Rim"
+                        onclick="toggleSiteFromMap('Amundsen South Rim')">
+
+                        <span class="pin-tooltip">
+                            Amundsen Rim
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <div class="map-footer">
+                    <span> <span class="legend-dot"></span> CANDIDATE SITES </span>
+                    <span> LUNAR SOUTH POLE </span>
+                </div>
+
+            </div>
+
+
+            <!-- MISSION CONTROLS -->
+            <div class="card controls-card">
+
+                <div class="card-header-row">
+                    <div>
+                        <span class="section-number">02 / CONFIGURATION</span>
+
+                        <h2 class="card-title">
+                            Mission Controls
+                        </h2>
+
+                        <p class="card-sub">
+                            Configure your evaluation parameters.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="control-stack">
+
+                    <!-- SITE SELECTOR -->
+                    <div>
+                        <label for="siteAddSelect">
+                            ADD LANDING SITE
+                        </label>
+
+                        <div class="input-action-row">
+
+                            <select id="siteAddSelect"></select>
+
+                            <button
+                                onclick="addSelectedSiteCard()"
+                                class="btn btn-primary">
+                                + ADD
+                            </button>
+
+                        </div>
+                    </div>
+
+
+                    <!-- SCHEDULE -->
+                    <div class="control-section">
+
+                        <span class="control-heading">
+                            MISSION SCHEDULE
+                        </span>
+
+                        <div class="control-grid">
+
+                            <div>
+                                <label for="missionDate">
+                                    LANDING DATE
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="missionDate"
+                                    value="2026-11-13"
+                                >
+                            </div>
+
+                            <div>
+                                <label for="missionSpan">
+                                    EVALUATION WINDOW
+                                </label>
+
+                                <select id="missionSpan">
+
+                                    <option value="336">
+                                        14 Days (336h)
+                                    </option>
+
+                                    <option value="672" selected>
+                                        28 Days (672h)
+                                    </option>
+
+                                    <option value="720">
+                                        30 Days (720h)
+                                    </option>
+
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    
+                    <div class="control-section">
+
+                        <span class="control-heading">
+                            CUSTOM COORDINATES
+                        </span>
+
+                        <div class="control-grid custom-grid">
+
+                            <div>
+                                <label for="customLat">
+                                    LATITUDE
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="customLat"
+                                    step="0.01"
+                                    min="-90"
+                                    max="90"
+                                    value="-85.92"
+                                    placeholder="Lat (°S)"
+                                >
+                            </div>
+
+                            <div>
+                                <label for="customLon">
+                                    LONGITUDE
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="customLon"
+                                    step="0.01"
+                                    min="-180"
+                                    max="360"
+                                    value="357.10"
+                                    placeholder="Lon (°E)"
+                                >
+                            </div>
+
+                        </div>
+
+                        <button
+                            onclick="addCustomSiteCard()"
+                            class="btn btn-secondary evaluate-btn">
+                            EVALUATE CUSTOM LOCATION →
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    
+        <section class="comparison-section">
+
+            <div class="comparison-header">
+
+                <div>
+                    <span class="section-number">
+                        03 / ANALYSIS
+                    </span>
+
+                    <h2>
+                        Site Comparison
+                    </h2>
+
+                    <p>
+                        Compare surface conditions, solar availability,
+                        telemetry, and horizon geometry.
+                    </p>
+                </div>
+
+                <span id="activeCountBadge" class="badge-tag">
+                    2 Sites Active
+                </span>
+
+            </div>
+
+
+            
+            <div id="siteCardsContainer" class="site-cards-grid">
+
+                
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="space-bg.js"></script>
+    <script src="script.js"></script>
+    
+</body>
+</html>
